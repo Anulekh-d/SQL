@@ -1,0 +1,231 @@
+
+To analyze data, core components of analytics are divided into the following categories:
+
+Desc
+Descriptive analytics help answer questions about what has happened based on historical data. Descriptive analytics techniques summarize large semantic models to describe outcomes to stakeholders.
+
+By developing key performance indicators (KPIs), these strategies can help track the success or failure of key objectives. Metrics such as return on investment (ROI) are used in many industries, and specialized metrics are developed to track performance in specific industries.
+
+An example of descriptive analytics is generating reports to provide a view of an organization's sales and financial data.
+
+Diagnostic
+Diagnostic analytics help answer questions about why events happened. Diagnostic analytics techniques supplement basic descriptive analytics, and they use the findings from descriptive analytics to discover the cause of these events. Then, performance indicators are further investigated to discover why these events improved or became worse. Generally, this process occurs in three steps:
+
+Identify anomalies in the data. These anomalies might be unexpected changes in a metric or a particular market.
+
+Collect data that's related to these anomalies.
+
+Use statistical techniques to discover relationships and trends that explain these anomalies.Business analyst
+
+Data analyst
+
+Data engineer
+
+Data scientist
+q 
+
+Database administrator
+Predictive
+Prescriptive
+Cognitive
+
+
+
+
+
+======================================================================================================================================
+
+DISTINCT = DISTINCTCOUNT(SALES[CUSTOMERKEY])
+
+
+Year diff = DATEDIFF(AirPassengers[Month],TODAY(),YEAR)
+
+10 years = DATEADD(AirPassengers[Month], 10, YEAR)
+
+
+VAT = IF(Sales[Country]= "Austraila", 0.05,0.03)   IF function
+
+nested IF VAT = IF(Sales[Country]= "Austraila", 0.05,IF(Sales[Country]="Germany",0.04,IF(Sales[Country]="India",0.03,0.02)))
+
+Switch function = VAT = SWITCH(Sales[Country],"Australia",0.05,"Canada",0.04,"`Italy",0.04,0.03)
+
+Lookupvalue == column = LOOKUPVALUE(DimProduct[EnglishProductName],DimProduct[ProductKey],FactInternetSales[ProductKey])
+
+Related with relation = = RELATED(DimProduct[EnglishProductName]) when lookup is required with relation.
+
+related table = COUNTROWS(RELATED(SALES)) tO COUNT THE NUMBER OF ROWS WHICH A SAME PRODUCKEY OR SAME PRODUCT
+
+COUNT  = COUNTX(SALES,IF(SALES[QUANTITY]>20,SALES[QUANTITY],BLANK())) used when the count of blank is also required.
+
+Total Sales = SUMX(SALES,SALES[QUANTITY]*RELATED(PRODUCTS[PRICE])) when we want to do a sum in between 2 different tables.
+
+Discounted = SUMX(SALES,IF(SALES[QUANTITY]<90,SALES[QUANTITY]*RELATED(PRODUCTS[PRICE])*0.98,SALES[QUANTITY]*RELATED(PRODUCTS[PRICE])))	to giv discount on different table
+
+Values function is used check diff integration which is due to the data is present in one table and not in other.
+
+
+All Functions Ingnor the filters. Allselected give selected Iteams total.
+
+
+Calculate is used when the table is returened through a Expression (If the Dax is returening table then we can used calculate sumx countx function)
+
+
+Divide function can be used to take percentage = Divide([Totalsales],[Selected prduct]) Use measure tool to convert and add percent % symbal
+
+AllExcept = this used with calculate
+
+IN operator = Calculate([TotalQty],Sales[city] IN {"Delhi","Chennai"}) This can be used to filter with small syntax
+         
+             Original Syntax = Calculate([TotalQTy], Sales[city]= "Delhi" || Sales[city] = "chennai")
+
+
+GENERATESERIES returns table = Create series with intervals as well
+
+
+CALENDAR function Cal = 1) CALENDAR(DATE(2024,1,1),DATE(2024,12,31))   2) CAL 2 = CALENDAR("01/01/2024","31/12/2024")
+
+ DATEADD function = = DATEADD(AirPassengers[Month], 10, YEAR) we can change month, year, days, quarter in this function too
+
+Calculate previous year sales = DATEADD(AirPassengers[Month], 10, YEAR) isblanck should be used to remove black records 
+				IF (ISBLANK([Growthpercentage]),Blank(),[Growthpercentage])
+
+SAMEPERIODLASTYEAR Function = calculate([Total sales], SAMEPERIODLASTYEAR(DateTable[date]))	
+
+ PARALLELPERIOD Function = calculate([Total sales], PARALLELPERIOD(DateTable[date],-1,Year))	
+
+DATESYTD
+DATESQTD     IF we want MArch as a Year END date then YEARENDDATE in "31-03-2018"
+DATESMTD
+		
+
+TOTALYTD
+TOTALQTD 		TotalYTD ([TotalSales],DateTable[Date])
+
+
+TOTALMTD
+
+FIRSTDATE
+LASTDATE 
+
+DATESINPERIOD = it will return from last years to mentions year data == calculate([Total sales], DATESINPERIOD(DATETABLE[DATE],"01/01/2020",-1,Year)
+
+
+MOVING SUM, AVERAGE == Calculate([Total sales], DATESINPERIOD(DATETABLE[DATE], lastdate(DATETABLE[DATE]), -3,Month))
+
+
+Append queries and add the data to the row below the existing table
+
+
+Merging a queries adds columns in the existing table 
+
+Rank = RANKX(ALL(financials[Country]),[Total sales],,desc)
+then we can use IF function
+		 
+ Running Tolat = Calculate
+					SUM(Monthly_sales[sales Amount]),
+					filter(
+					All(Monthly_Sales[Month]),
+					Monthly_Sales[Month]<=MAX(Monthly_Sales[Month])))
+					
+					
+					
+GUY in a cube 
+DAX friday curble 
+rad acdmeny 
+
+
+
+
+SUMX: Adds up the result of an expression evaluated for each row in a table.
+Total Sales = SUMX('Sales', 'Sales'[Amount])
+
+COUNTROWS: Returns the number of rows in a table.
+Total Customers = COUNTROWS('Customer')
+
+AVERAGE: Calculates the average of a column.
+Average Sales = AVERAGE('Sales'[Amount])
+
+Filter and Row Context Functions:
+CALCULATE: Modifies the filter context for a calculation.
+
+Total Sales 2019 = CALCULATE(SUM('Sales'[Amount]), 'Date'[Year] = 2019)
+
+FILTER: Applies a filter to a table..
+High-Value Customers = CALCULATE(SUM('Sales'[Amount]), FILTER('Customer', 'Customer'[Total Purchases] > 10000))
+
+ALL: Removes all filters from a table or column.
+Total Sales (All Dates) = CALCULATE(SUM('Sales'[Amount]), ALL('Date'))
+
+Time Intelligence Functions:
+
+TOTALYTD
+YTD Sales = TOTALYTD(SUM('Sales'[Amount]), 'Date'[Date])
+
+TOTALQTD
+QTD Sales = TOTALQTD(SUM('Sales'[Amount]), 'Date'[Date])
+
+TOTALMTD
+MTD Sales = TOTALMTD(SUM('Sales'[Amount]), 'Date'[Date])
+
+DATESBETWEEN
+Sales Between Dates = CALCULATE(SUM('Sales'[Amount]), DATESBETWEEN('Date'[Date], DATE(2021, 1, 1), DATE(2021, 12, 31)))
+
+FIRSTDATE, LASTDATE:
+First Date = FIRSTDATE('Date'[Date])
+
+FIRSTNONBLANK
+First Non-Blank Date = FIRSTNONBLANK('Date'[Date], 'Sales'[Amount])
+
+LASTNONBLANK
+Last Non-Blank Date = LASTNONBLANK('Date'[Date], 'Sales'[Amount])
+
+DATESINPERIOD
+Last 3 Months Sales = CALCULATE(SUM('Sales'[Amount]), DATESINPERIOD('Date'[Date], TODAY(), -3, MONTH))
+
+TOTALPERIODS
+Number of Months = TOTALPERIODS('Date'[Date])
+
+PARALLELPERIOD	
+PARALLELPERIOD(<dates>, <number_of_periods>, <period>)
+
+Shift Sales Date Backward by 1 Month:
+Sales Last Month = CALCULATE(SUM('Sales'[Amount]), PARALLELPERIOD('Date'[Date], 1, MONTH))
+
+Shift Sales Date Forward by 3 Quarters:
+Sales Next Quarter = CALCULATE(SUM('Sales'[Amount]), PARALLELPERIOD('Date'[Date], -3, QUARTER))
+
+Shift Sales Date Backward by 1 Year:
+Sales Last Year = CALCULATE(SUM('Sales'[Amount]), PARALLELPERIOD('Date'[Date], 1, YEAR))
+
+TREATAS
+Total Sales = 
+CALCULATE(
+    SUM('Sales'[Amount]),
+    TREATAS('Customer'[CustomerID], 'Sales'[CustomerID])
+)
+
+SAMEPERIODLASTYEAR
+Last Year Sales = CALCULATE(SUM('Sales'[Amount]), SAMEPERIODLASTYEAR('Date'[Date]))
+
+
+USERELATIONSHIP 
+Total Sales Alternate Relationship = 
+CALCULATE(
+    SUM('Sales'[Amount]),
+    USERELATIONSHIP('Sales'[Date], 'AlternateDateTable'[Date])
+)
+RELATEDTABLE 
+Total Sales Related Table = 
+CALCULATE(
+    SUM('Sales'[Amount]),
+    RELATEDTABLE('Customer')
+)
+RANKX 
+Ranking = RANKX('Sales', 'Sales'[Amount])
+
+DATEADD 
+NewDate = DATEADD('Date'[Date], 7, DAY)
+
+
+
+

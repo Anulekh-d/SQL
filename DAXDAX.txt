@@ -1,0 +1,57 @@
+1) DQ DRAWBACKS AND WHICH DAX AND TRANSFORMATION DOES NOT WORK 
+
+DirectQuery, and limitations related to performance, security, transformations, modeling, and reporting.
+Apparent Slowness in the Query response.
+Gateway needs to be constantly running.
+v/ NO DAX support
+No data model formatting in the Data tab
+No multiple data sources support
+No Power Q&A support
+Automatic date/time hierarchy is unavailable in DirectQuery.
+
+2) LIVE CONNECTION 
+A semantic model that already exists in Power BI service
+
+An Azure Analysis Services (AAS) database
+
+An on-premises instance of SQL Server Analysis Services (SSAS)
+
+3) Which DAX function Cannot be used in direct query mode?
+Not all functions can be used; the DAX PATH function cannot be used in DirectQuery models.
+
+Direct query
+Direct Query is a connection mainly Limited
+data source like, SQL, Oracle, Snowflakes
+In Direct Query there are limited Power Query
+functionality available.
+t Query mode usually is slower than Live
+														Live connections
+														Live Connections is a connection to sources:
+														SSAS tabular, SSAS multi-dimensional, Azure
+														Analysis Services, and Power Bl dataset.
+														Live Connection has no Power Query features
+														in it.
+														A live connection is faster
+														
+														
+														
+DAX limitations: DAX time intelligence functions such as every year, month over month, and same period, are not supported when working with DirectQuery there are few transformations that do not work in direct query 
+
+these are some common issues in live connection type. there are limited live sources which support live connection
+A semantic model that already exists in Power BI service
+
+An Azure Analysis Services (AAS) database
+
+An on-premises instance of SQL Server Analysis Services (SSAS)
+
+
+
+Modeling Dax userelation function
+CALCULATE(
+    SUM('Sales'[SalesAmount]),
+    USERELATION('Sales'[CustomerID], 'Customers'[CustomerID])
+
+
+
+
+
